@@ -1,0 +1,9 @@
+.giv-rtl{
+    direction: rtl;
+}
+.g{
+    transition: all 0.2s ease!important;
+}
+.g:hover{
+    color: #5c5c5c!important;
+}

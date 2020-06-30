@@ -1,0 +1,16 @@
+{% extends 'site/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+ورود
+{% endblock  %}
+{% block content %}
+<form action="" method='post' autocomplete='off'>
+{% csrf_token %}
+<div class="col-md-12 mt-5 mx-auto">
+    
+    <div class="col-md-6 mx-auto">{{form.email|as_crispy_field}}</div>
+    <div class="col-md-6 mx-auto">{{form.password|as_crispy_field}}</div>
+    <div class="col-md-1 mx-auto text-center"><input type="submit" value='ورود' class='btn btn-block btn-outline-warning'></div>
+</div>
+</form>
+{% endblock  %}
