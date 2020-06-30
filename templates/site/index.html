@@ -15,14 +15,15 @@
 <div class="jumbotron jumbotron-fluid text-center">
   <div class="container">
     <h2 class='lead'>برای دیدن پروفایل باید وارد شوید یا ثبت نام کنید</h2>
+    <h2 class='lead'>برای ساخت پروژه وارد شوید یا ثبت نام کنید</h2>
   </div>
 </div>
 {% endif %}
 {% if user.is_authenticated %}
 <div class="col-md-12 mx-auto text-center">
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-<a href="" class='btn btn-warning'>ساخت پروژه</a>
-<a href="" class='btn btn-warning'>پیوستن به پروژه</a>
+<a href="{% url 'project:create' %}" class='btn btn-warning'>ساخت پروژه</a>
+<a href="" class='btn btn-warning'>درخواست برای پیوستن به پروژه</a>
 </div>
 </div>
 {% endif %}
