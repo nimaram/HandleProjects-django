@@ -11,14 +11,13 @@ class Project(models.Model):
     class Meta:
         ordering = ['name']
 
- class ProjectMembership(models.Model):
-
+class ProjectMembership(models.Model):
      ROLE_CHOICES = (
-         ('RG' : 'Guest'),
-         ('RR' : 'Reporter'),
-         ('RD' : 'Developer'),
-         ('RM' : 'Master'),
-         ('RO' : 'Owner'),
+         ('RG' , 'Guest'),
+         ('RR' , 'Reporter'),
+         ('RD' , 'Developer'),
+         ('RM' , 'Master'),
+         ('RO' , 'Owner'),
      )
 
      project = models.ForeignKey(Project,on_delete=models.CASCADE)
