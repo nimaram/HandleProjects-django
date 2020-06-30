@@ -31,13 +31,17 @@
 <div class='col-md-12 mt-5 mx-auto text-center'>
 <div class="row d-flex justify-content-center">
 {% for project in projects %}
-<div class="card m-1" style="width: 18rem;">
+<div class="card m-1 border border-primary" style="width: 18rem;">
   <div class="card-body p-5">
+   <p class='badge badge-primary p-2'><span class='p-1'>Owner</span><i class="fas fa-crown"></i></p>
     <h5 class="card-title">{{project.name}}</h5>
-    <p class="card-text">{{project.description}}</p>
-    <a href="{{project.slug}}" class="btn btn-primary">مشاهده ی پروژه</a>
+    <p class="card-text">{{project.description|truncatewords:25}}</p>
+    <a href="{% url 'project:detail' project.slug %}" class="btn btn-primary">مشاهده ی پروژه</a>
+    <a href="{% url 'project:delete' user.pk project.slug %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
   </div>
 </div>
+{% empty %}
+<h3 class='mt-5 giv-rtl text-muted'>شما پروژه ای ندارید! یکی بسازید.</h3>
 {% endfor %}
 </div>
 </div>

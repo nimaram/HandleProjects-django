@@ -1,0 +1,11 @@
+{% extends 'site/base.html' %}
+{% block title %}
+حذف پروژه
+{% endblock  %}
+{% block content %}
+<h5 class='text-center mt-5'>آیا شما میخواهید این پروژه حذف کنید؟</h5>
+<form method='post' autocomplete='off'>
+{% csrf_token %}
+<div class="col-md-1 text-center mx-auto mt-3"><input type="submit" value='حذف پروژه' class='btn btn-danger'></div> 
+</form>
+{% endblock  %}
