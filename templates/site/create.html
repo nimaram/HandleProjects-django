@@ -1,0 +1,15 @@
+{% extends 'site/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+ساخت پروژه
+{% endblock  %}
+{% block content %}
+<form action="" method='post' autocomplete='off'>
+{% csrf_token %}
+<div class="col-md-12 mt-5">
+<div class="col-md-6  mx-auto">{{form.name|as_crispy_field}}</div>
+<div class="col-md-6  mx-auto">{{form.description|as_crispy_field}}</div>
+<div class="col-md-1 mx-auto text-center mt-2"><input type="submit" value='ساختن' class='btn btn-block btn-outline-warning'></div>
+</div>
+</form>
+{% endblock  %}
