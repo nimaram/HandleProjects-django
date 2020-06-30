@@ -8,6 +8,10 @@ class Project(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+    
+
     class Meta:
         ordering = ['name']
 
@@ -24,6 +28,10 @@ class ProjectMembership(models.Model):
      user = models.ForeignKey(User,on_delete=models.CASCADE)
      role = models.CharField(max_length=4,choices=ROLE_CHOICES,default='RG',verbose_name='دسترسی')
      is_current = models.BooleanField(default=False)
+
+     def __str__(self):
+         return str(self.project) + ' ' + str(self.user) + ' ' + str(self.role)
+     
 
      class Meta:
          # برید لینک پایین تا رستگار شوید
