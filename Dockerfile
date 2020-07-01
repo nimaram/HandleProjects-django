@@ -1,13 +1,7 @@
 FROM python:3
-
-ENV PYTHONUNBUFFRED 1
-
-WORKDIR /app
-
-ADD . / app
-
-COPY ./requirements.txt /app/requirements.txt
-
+ENV PYTHONUNBUFFERED 1
+RUN mkdir /code
+WORKDIR /code
+COPY requirements.txt /code/
 RUN pip install -r requirements.txt
-
-COPY . /app
+COPY . /code/
