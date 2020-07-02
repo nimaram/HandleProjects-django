@@ -1,8 +1,10 @@
 from django.shortcuts import render , redirect , get_object_or_404
-from .forms import CreateProject
+from .forms import CreateProject , MemberShip
+from django.conf import settings
 from .models import Project
 from django.utils.text import slugify
 def home(request):
+    settings.USER_TOCHPAD = request.user.pk
     project = ''
     if request.user.is_authenticated:
         project = Project.objects.filter(owner=request.user)
@@ -43,3 +45,38 @@ def delete(request,slug,user_id):
             
     else:
         return redirect('project:home')    
+
+def edit(request,slug,user_id):
+    project = get_object_or_404(Project,slug=slug)
+    if request.user.is_authenticated:
+        if request.user.id == user_id:
+            if request.method == 'POST':
+                form = CreateProject(request.POST,instance=project)
+                if form.is_valid():
+                    e_project = form.save(commit=False)
+                    e_project.slug = slugify(form.cleaned_data.get('name'))
+                    e_project.save()
+                    return redirect('project:home') 
+            else:
+                form = CreateProject(instance=project)
+            return render(request,'site/edit.html',{'form':form})
+        else:
+            return redirect('project:home')     
+
+    else:
+        return redirect('project:home')
+def addcont(request,slug,user_id):
+    if request.user.is_authenticated:
+        if request.user.id == user_id:
+            if request.method == 'POST':
+                form = MemberShip(request.POST)
+                if form.is_valid():
+                    form.save()
+                    return redirect('project:home')
+            else:
+                form = MemberShip()
+            return render(request,'site/addcont.html',{'form':form})    
+        else:
+            return redirect('project:home') 
+    else:
+        return redirect('project:home')                         

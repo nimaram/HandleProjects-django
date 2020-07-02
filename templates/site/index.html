@@ -38,6 +38,7 @@
     <p class="card-text">{{project.description|truncatewords:25}}</p>
     <a href="{% url 'project:detail' project.slug %}" class="btn btn-primary">مشاهده ی پروژه</a>
     <a href="{% url 'project:delete' user.pk project.slug %}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+    <a href="{% url 'project:edit' project.slug user.pk %}" class="btn btn-success"><i class="fas fa-edit"></i></i></a>
   </div>
 </div>
 {% empty %}

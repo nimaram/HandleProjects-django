@@ -23,6 +23,7 @@
   <div class="container text-center">
     <h3>{{project.name}}</h3>
     <p class="lead giv-rtl">{{project.description}}</p>
+    <a href="{% url 'project:addContribution' project.slug user.pk %}" class='btn btn-warning'>افزودن سازنده به پروژه</a>
   </div>
 </div>
 {% endblock  %}
