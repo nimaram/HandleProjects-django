@@ -1,15 +1,21 @@
 from django.shortcuts import render , redirect , get_object_or_404
+from django.urls import reverse_lazy
 from .forms import CreateProject , MemberShip
 from django.conf import settings
 from .models import Project
 from django.utils.text import slugify
+from django.views.generic import CreateView , ListView
 def home(request):
-    settings.USER_TOCHPAD = request.user.pk
     project = ''
     if request.user.is_authenticated:
         project = Project.objects.filter(owner=request.user)
     return render(request,'site/index.html',{'projects':project})
-
+class home(ListView):
+    model = Project
+    queryset = Project.objects.filter(owner=1)
+    context_object_name = 'projects'
+    template_name = 'site/index.html'
+    paginate_by = 3
 
 def create(request):
     if request.user.is_authenticated:
@@ -65,18 +71,40 @@ def edit(request,slug,user_id):
 
     else:
         return redirect('project:home')
-def addcont(request,slug,user_id):
-    if request.user.is_authenticated:
-        if request.user.id == user_id:
-            if request.method == 'POST':
-                form = MemberShip(request.POST)
-                if form.is_valid():
-                    form.save()
-                    return redirect('project:home')
-            else:
-                form = MemberShip()
-            return render(request,'site/addcont.html',{'form':form})    
-        else:
-            return redirect('project:home') 
-    else:
-        return redirect('project:home')                         
+# def addcont(request,slug,user_id):
+#     if request.user.is_authenticated:
+#         if request.user.id == user_id:
+#             if request.method == 'POST':
+#                 form = MemberShip(request.POST)
+#                 if form.is_valid():
+#                     form.save()
+#                     return redirect(request.GET,'project:home')
+#             else:
+#                 form = MemberShip()
+#             return render(request,'site/addcont.html',{'form':form})    
+#         else:
+#             return redirect('project:home') 
+#     else:
+#         return redirect('project:home')                         
+# suggest ==>  CBV
+# CBV ==> self.request.user 
+class addcont(CreateView):
+    model = Project
+    form_class = MemberShip
+    template_name = 'site/addcont.html'
+    success_url = reverse_lazy('project:home')
+    def get_form_kwargs(self):
+        kwargs = super(addcont,self).get_form_kwargs()
+        kwargs.update({
+            'user':self.request.user.id
+        })
+        return kwargs
+
+    def form_valid(self,form):
+        member_ship = form.save(commit=False)
+        member_ship.project = taked_project.name
+        member_ship.is_current = True
+        member_ship.save()
+        return super().form_valid(form)
+
+

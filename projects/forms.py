@@ -7,7 +7,11 @@ class CreateProject(forms.ModelForm):
         exclude = ['slug','owner']
 
 class MemberShip(forms.ModelForm):
-    project = forms.ModelChoiceField(queryset=Project.objects.filter(owner=settings.USER_TOCHPAD))
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(MemberShip,self).__init__(*args,**kwargs)
+
+        self.fields['project'].queryset = Project.objects.filter(owner=user)
     class Meta:
         model = ProjectMembership
-        exclude = ['is_current']        
+        exclude = ['is_current','project']        

@@ -46,5 +46,13 @@
 {% endfor %}
 </div>
 </div>
+{% if is_paginated %}
+{% if page_obj.has_previous %}
+<a href="{% url 'project:home' page_obj.previous_page_number %}" class='btn btn-primary'>صفحه قبل</a>
+{% endif %}
+{% if page_obj.has_next %}
+<a href="{% url 'project:home' page_obj.next_page_number %}" class='btn btn-primary'>صفحه بعد</a>
+{% endif %}
+{% endif %}
 {% endif %}
 {% endblock  %}
