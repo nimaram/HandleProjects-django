@@ -10,8 +10,8 @@ class MemberShip(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(MemberShip,self).__init__(*args,**kwargs)
-
-        self.fields['project'].queryset = Project.objects.filter(owner=user)
+            
+        # self.fields['project'].queryset = Project.objects.filter(owner=user)
     class Meta:
         model = ProjectMembership
         exclude = ['is_current','project']        

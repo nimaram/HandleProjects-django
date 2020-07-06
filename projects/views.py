@@ -3,6 +3,9 @@ from django.urls import reverse_lazy
 from .forms import CreateProject , MemberShip
 from django.conf import settings
 from .models import Project
+from .mixins import UserProtectMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.utils.text import slugify
 from django.views.generic import CreateView , ListView
 def home(request):
@@ -10,12 +13,15 @@ def home(request):
     if request.user.is_authenticated:
         project = Project.objects.filter(owner=request.user)
     return render(request,'site/index.html',{'projects':project})
-class home(ListView):
-    model = Project
-    queryset = Project.objects.filter(owner=1)
-    context_object_name = 'projects'
-    template_name = 'site/index.html'
-    paginate_by = 3
+
+
+# class home(ListView):
+#     template_name = 'site/index.html'
+#     model = Project
+#     def get_context_data(slef,**kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['projects'] = Project.objects.filter(owner=self.request.user)
+#         return context
 
 def create(request):
     if request.user.is_authenticated:
@@ -88,8 +94,8 @@ def edit(request,slug,user_id):
 #         return redirect('project:home')                         
 # suggest ==>  CBV
 # CBV ==> self.request.user 
-class addcont(CreateView):
-    model = Project
+class addcont(LoginRequiredMixin,UserProtectMixin,CreateView):
+    login_url = reverse_lazy('users:login')
     form_class = MemberShip
     template_name = 'site/addcont.html'
     success_url = reverse_lazy('project:home')
@@ -100,10 +106,12 @@ class addcont(CreateView):
         })
         return kwargs
 
-    def form_valid(self,form):
+
+    def form_valid(self,form,**kwargs):
+        project = get_object_or_404(Project,pk=self.kwargs['project'])
         member_ship = form.save(commit=False)
-        member_ship.project = taked_project.name
         member_ship.is_current = True
+        member_ship.project = project
         member_ship.save()
         return super().form_valid(form)
 
