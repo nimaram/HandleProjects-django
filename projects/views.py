@@ -2,7 +2,7 @@ from django.shortcuts import render , redirect , get_object_or_404
 from django.urls import reverse_lazy
 from .forms import CreateProject , MemberShip
 from django.conf import settings
-from .models import Project
+from .models import Project , ProjectMembership
 from .mixins import UserProtectMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -12,7 +12,8 @@ def home(request):
     project = ''
     if request.user.is_authenticated:
         project = Project.objects.filter(owner=request.user)
-    return render(request,'site/index.html',{'projects':project})
+        pr = ProjectMembership.objects.filter(user=request.user)
+    return render(request,'site/index.html',{'projects':project,'pr':pr})
 
 
 # class home(ListView):

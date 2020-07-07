@@ -23,7 +23,7 @@
 <div class="col-md-12 mx-auto text-center">
 <div class="btn-group btn-group-toggle" data-toggle="buttons">
 <a href="{% url 'project:create' %}" class='btn btn-warning'>ساخت پروژه</a>
-<a href="" class='btn btn-warning'>درخواست برای پیوستن به پروژه</a>
+
 </div>
 </div>
 {% endif %}
@@ -46,5 +46,22 @@
 {% endfor %}
 </div>
 </div>
+{% if pr %}
+<div class='container-fluid text-center mt-3 p-5 bg-warning'><h3>پروژه هایی که شما در آن همکاری میکنید</h3></div>
+{% for por in pr %}
+<div class="card m-1 mt-5 border border-primary" style="width: 18rem;">
+  <div class="card-body p-5">
+   <p class='badge badge-primary p-2'><span class='p-1'>
+{% if por.role == 'RD' %}
+Developer
+{% endif %}
+   </span></p>
+    <h5 class="card-title">{{por.project}}</h5>
+  </div>
+</div>
+
+
+{% endfor %}
+{% endif %}
 {% endif %}
 {% endblock  %}
